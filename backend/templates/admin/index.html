@@ -1,0 +1,7 @@
+{% extends "admin/index.html" %}
+{% load attendance_tags %}
+
+{% block content %}
+{% show_live_sessions %}
+{{ block.super }}
+{% endblock %}

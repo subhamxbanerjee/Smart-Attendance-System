@@ -1,0 +1,47 @@
+<div class="module" style="margin-bottom: 20px;">
+    <div
+        style="display: flex; justify-content: space-between; align-items: center; background: #417690; padding: 10px;">
+        <h2 style="margin: 0; color: white;">Today's Live Class Schedule</h2>
+        <a href="{% url 'admin-test-camera' %}"
+            style="color: white; background: #6699cc; padding: 5px 10px; text-decoration: none; border-radius: 4px; font-size: 0.8em;">Test
+            Camera System</a>
+    </div>
+    <table style="width: 100%; border-collapse: collapse; background: white; border: 1px solid #ccc;">
+        <thead style="background: #f8f8f8; text-align: left;">
+            <tr>
+                <th style="padding: 10px; border-bottom: 1px solid #ccc;">Session Name</th>
+                <th style="padding: 10px; border-bottom: 1px solid #ccc;">Class Room</th>
+                <th style="padding: 10px; border-bottom: 1px solid #ccc;">Time</th>
+                <th style="padding: 10px; border-bottom: 1px solid #ccc;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in sessions %}
+            <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 10px;">
+                    <a href="{% url 'admin:attendance_session_change' s.id %}"
+                        style="font-weight: bold; font-size: 14px;">{{ s.name }}</a>
+                </td>
+                <td style="padding: 10px;">{{ s.class_room }}</td>
+                <td style="padding: 10px;">{{ s.start_time|date:"H:i" }} - {{ s.end_time|date:"H:i" }}</td>
+                <td style="padding: 10px;">
+                    {% if s.is_live %}
+                    <span
+                        style="color: white; background: red; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">LIVE
+                        NOW</span>
+                    {% elif s.is_active %}
+                    <span style="color: green;">Active</span>
+                    {% else %}
+                    <span style="color: gray;">Ended</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="padding: 20px; text-align: center; color: #666;">No sessions scheduled for today.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

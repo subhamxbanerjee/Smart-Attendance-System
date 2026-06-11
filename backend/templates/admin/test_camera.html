@@ -1,0 +1,52 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<div style="padding: 20px;">
+    <h1>Live Camera Feed</h1>
+    <p>Below is the live stream from the configured camera source.</p>
+
+    <div style="margin-bottom: 20px;">
+        <button id="toggleBtn" class="button" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Stop
+            Feed</button>
+        <button id="refreshBtn" class="button"
+            style="padding: 10px 20px; font-size: 16px; cursor: pointer; margin-left: 10px;">Refresh Feed</button>
+    </div>
+
+    <div id="feedContainer"
+        style="border: 1px solid #ccc; min-height: 480px; width: 100%; max-width: 800px; background: #000; display: flex; align-items: center; justify-content: center;">
+        <img id="videoFeed" src="/api/face/video_feed/" style="max-width: 100%; height: auto; display: block;"
+            alt="Loading Camera Feed...">
+    </div>
+
+    <div style="margin-top: 10px; color: #666;">
+        Source: {{ settings.CAMERA_SOURCE }}
+    </div>
+</div>
+
+<script>
+    const videoFeed = document.getElementById('videoFeed');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const refreshBtn = document.getElementById('refreshBtn');
+    let isPlaying = true;
+
+    toggleBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            videoFeed.src = "";
+            toggleBtn.textContent = "Start Feed";
+            isPlaying = false;
+        } else {
+            videoFeed.src = "/api/face/video_feed/?t=" + new Date().getTime();
+            toggleBtn.textContent = "Stop Feed";
+            isPlaying = true;
+        }
+    });
+
+    refreshBtn.addEventListener('click', () => {
+        videoFeed.src = "/api/face/video_feed/?t=" + new Date().getTime();
+        if (!isPlaying) {
+            toggleBtn.textContent = "Stop Feed";
+            isPlaying = true;
+        }
+    });
+</script>
+{% endblock %}

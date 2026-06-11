@@ -1,0 +1,11 @@
+.venv311/
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+node_modules/
+.env
+db.sqlite3
+media/
+*.log
